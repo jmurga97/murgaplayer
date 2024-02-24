@@ -2,8 +2,6 @@ import VideoControls from "./VideoControls";
 import { PlayerLoader } from "./Loader";
 import { IoMdEye, IoMdHeart } from "react-icons/io";
 import useVideoPlayer from "@/hooks/useVideoPlayer";
-import { auth } from "@/firebase/config";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 interface Props {
   description: string;
@@ -29,8 +27,7 @@ const VideoPlayer = ({
   like,
   id,
 }: Props) => {
-  const [user] = useAuthState(auth)
-  const uid = user ? user.uid : null
+
   const {
     play,
     playcountClient,
@@ -40,7 +37,7 @@ const VideoPlayer = ({
     handleLoadedData,
     handleError,
     setPlay
-  } = useVideoPlayer({ id, playcount, uid });
+  } = useVideoPlayer({ id, playcount });
 
   const isError = error ? <h2 className="text-white text-xl font-thin">{error}</h2> : <PlayerLoader />
 

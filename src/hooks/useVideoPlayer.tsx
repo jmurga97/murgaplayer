@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from "react";
 import { trpc } from "@/utils/trpc";
-
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/config";
 interface Props {
     id: string,
     playcount: number,
-    uid: any
 }
 
-const useVideoPlayer = ({ id, playcount, uid }: Props) => {
+const useVideoPlayer = ({ id, playcount }: Props) => {
+    const [user] = useAuthState(auth)
     const [play, setPlay] = useState(false);
     const [playcountClient, setPlaycountClient] = useState(playcount)
     const [loading, setLoading] = useState(true);
@@ -17,11 +19,13 @@ const useVideoPlayer = ({ id, playcount, uid }: Props) => {
     //Tracking de cuando el video finaliza.
     //Si finaliza, reiniciamos el estado de play e incrementamos el playCount una unidad
     useEffect(() => {
+
         const videoElement = videoRef.current;
         if (videoElement) {
             const handleVideoEnded = async () => {
                 setPlay(false);
-                if (uid) {
+                //Verifico si el usuario está logeado para permitir el incremento en el playcount
+                if (user?.uid) {
                     setPlaycountClient(prevState => prevState + 1)
                     mutation.mutate({ id })
 
@@ -36,8 +40,12 @@ const useVideoPlayer = ({ id, playcount, uid }: Props) => {
                 videoElement.removeEventListener("ended", handleVideoEnded);
             };
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [id,user]);
+
+    useEffect(() => {
+        //Para asegurarnos que el estado se mantiene actualizado entre páginas si el dato playcount desde el servidor cambia
+        setPlaycountClient(playcount)
+    },[playcount])
 
     const handleLoadedData = () => {
         setLoading(false);

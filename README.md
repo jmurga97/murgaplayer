@@ -3,10 +3,20 @@
 Este proyecto es una aplicación de streaming de video construida utilizando Next.js y Tailwind CSS. Presenta una vista principal (accesible a través de la ruta `/`) y una vista de reproductor de video para ver videos (accesible a través de la ruta `/watch/[id]`).
 
 ## Setting Up
-Para ejecutar la aplicación en modo de desarrollo, simplemente ejecuta el siguiente comando:
 
+Ejecutamos el siguiente comando para instalar las dependencias
+```bash
+npm run install
+```
+
+Para ejecutar la aplicación en modo de desarrollo, simplemente ejecuta el siguiente comando:
 ```bash
 npm run dev
+```
+
+Para probar en modo producción
+```bash
+npm run build && start
 ```
 
 Las credenciales de Firebase ya se encuentran configuradas en el proyecto bajo un tiempo limitado en Firebase para probar rápidamente el proyecto
