@@ -6,6 +6,6 @@ import superjson from 'superjson'
 
 export const helpers = createServerSideHelpers({
   router: appRouter,
-  ctx: () => {},
+  ctx: {},
   transformer: superjson
 });

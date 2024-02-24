@@ -22,3 +22,7 @@ export const HomeLoader = () => (
         <Skeleton className="h-24 w-48  rounded-lg bg-gray-700" />
     </div>
 )
+
+export const NavLoader = () => (
+    <Skeleton className="h-6 w-24 rounded-lg bg-gray-700"/>
+)

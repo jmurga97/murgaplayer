@@ -6,7 +6,7 @@ const t = initTRPC.create({
 });
 
 //Router defino cuales van a ser mis llamadas a las APIs
-    //en este caso, getAllVideos, getOneVideo, incrementPlaycount, likeVideo
+//en este caso, getAllVideos, getOneVideo, incrementPlaycount, likeVideo
 //Procedure va a ser una mutacion (se cambia algun dato como incrementPlaycount) o una consulta (query)
 export const router = t.router;
 export const procedure = t.procedure;

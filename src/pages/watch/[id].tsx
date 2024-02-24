@@ -1,5 +1,4 @@
 import VideoPlayer from "@/components/app/VideoPlayer";
-import VideoCard from "@/components/app/VideoCard";
 import Layout from "@/components/containers/Layout";
 import { Video } from "@/types";
 import { trpc } from "@/utils/trpc";
@@ -20,6 +19,7 @@ export default function Watch(
     const { data: video, isError } = trpc.getVideo.useQuery({ id });
     const filteredVideos = allVideos?.filter((video:Video) => video.id !== id)
     const router = useRouter()
+
     return (
         <Layout
             title={`Murgaplayer - Watching video`}

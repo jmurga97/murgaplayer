@@ -1,9 +1,10 @@
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { IoMdHome } from "react-icons/io";
+import NavbarUser from "./NavbarUser";
 
 const Navbar = () => {
+
     return (
         <nav className="bg-neutral-800 shadow-2xl w-full sticky top-0 z-10 flex flex-row flex-nowrap justify-between py-4 px-8">
             <div className="">
@@ -16,11 +17,7 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="flex gap-4 items-center pr-4">
-                <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <p className="font-bold text-lg text-white">Juan</p>
+                <NavbarUser />
             </div>
         </nav>
 

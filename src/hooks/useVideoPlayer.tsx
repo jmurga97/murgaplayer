@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { trpc } from "@/utils/trpc";
+
 interface Props {
     id: string,
-    playcount: number
+    playcount: number,
+    uid: any
 }
 
-const useVideoPlayer = ({ id, playcount }: Props) => {
+const useVideoPlayer = ({ id, playcount, uid }: Props) => {
     const [play, setPlay] = useState(false);
     const [playcountClient, setPlaycountClient] = useState(playcount)
     const [loading, setLoading] = useState(true);
@@ -19,11 +21,15 @@ const useVideoPlayer = ({ id, playcount }: Props) => {
         if (videoElement) {
             const handleVideoEnded = async () => {
                 setPlay(false);
-                //INCREMENT PLAYCOUNT
-                setPlaycountClient(prevState => prevState + 1)
-                mutation.mutate({ id })
-                //Optimistic update in case of error
-                mutation.isError ? setPlaycountClient(prev => prev - 1) : null
+                if (uid) {
+                    setPlaycountClient(prevState => prevState + 1)
+                    mutation.mutate({ id })
+
+                    //Optimistic update in case of error
+                    if (mutation.isError) {
+                        setPlaycountClient(prev => prev - 1)
+                    }
+                }
             };
             videoElement.addEventListener("ended", handleVideoEnded);
             return () => {

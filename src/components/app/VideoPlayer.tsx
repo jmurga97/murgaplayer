@@ -2,6 +2,8 @@ import VideoControls from "./VideoControls";
 import { PlayerLoader } from "./Loader";
 import { IoMdEye, IoMdHeart } from "react-icons/io";
 import useVideoPlayer from "@/hooks/useVideoPlayer";
+import { auth } from "@/firebase/config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface Props {
   description: string;
@@ -12,6 +14,13 @@ interface Props {
   id: string;
 }
 
+const VideoMetrics = ({ icon, value }: { icon: React.ReactNode, value: number }) => (
+  <p className="text-lg text-white font-medium tracking-wider text-right flex flex-row flex-nowrap items-center gap-5">
+    {icon}
+    <span>{value}</span>
+  </p>
+)
+
 const VideoPlayer = ({
   video,
   description,
@@ -20,6 +29,8 @@ const VideoPlayer = ({
   like,
   id,
 }: Props) => {
+  const [user] = useAuthState(auth)
+  const uid = user ? user.uid : null
   const {
     play,
     playcountClient,
@@ -29,7 +40,9 @@ const VideoPlayer = ({
     handleLoadedData,
     handleError,
     setPlay
-  } = useVideoPlayer({ id, playcount });
+  } = useVideoPlayer({ id, playcount, uid });
+
+  const isError = error ? <h2 className="text-white text-xl font-thin">{error}</h2> : <PlayerLoader />
 
   return (
     <div className={`w-full`}>
@@ -51,16 +64,13 @@ const VideoPlayer = ({
           setPlay={setPlay}
           videoRef={videoRef}
         >
-          <p className="text-lg text-white font-medium tracking-wider text-right flex flex-row flex-nowrap items-center gap-5">
-            <IoMdEye className="text-slate-300" size="1.5rem" />{" "}
-            <span>{playcountClient}</span>
-          </p>
-          <p className="text-lg text-white font-medium tracking-wider text-right flex flex-row flex-nowrap items-center gap-5">
-            <IoMdHeart className="text-slate-300" size="1.5rem" />{" "}
-            <span>{like}</span>
-          </p>
+          <VideoMetrics icon={<IoMdEye className="text-slate-300 text-2xl"  />} value={playcountClient} />
+          {/* Por razones de tiempo no implementé la funcionalidad de like, pues requerirá que esté loggeado, crear la mutacion, verificar
+              que el usuario que haya dado like anteriormente si lo vuelve a presionar lo reste, etc.
+            <VideoMetrics icon={<IoMdHeart className="text-slate-300 text-2xl" />} value={like} />
+          */}
         </VideoControls>
-      ) : error ? <h2 className="text-white text-xl font-thin">{error}</h2> : <PlayerLoader />
+      ) : isError
       }
     </div>
   );
