@@ -1,40 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Murga Player
 
-## Getting Started
+Este proyecto es una aplicación de streaming de video construida utilizando Next.js y Tailwind CSS. Presenta una vista principal (accesible a través de la ruta `/`) y una vista de reproductor de video para ver videos (accesible a través de la ruta `/watch/[id]`).
 
-First, run the development server:
+## Setting Up
+Para ejecutar la aplicación en modo de desarrollo, simplemente ejecuta el siguiente comando:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Las credenciales de Firebase ya se encuentran configuradas en el proyecto bajo un tiempo limitado en Firebase para probar rápidamente el proyecto
+Para futuras implementaciones, se puede configurar las credenciales de Firebase y configurar las variables de entorno para usar el servidor de prueba bajo tu dominio.
+Para mayor información: [text](https://firebase.google.com/docs/firestore)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+# Configuración de Firebase
+FIREBASE_API_KEY=tu_clave_api
+FIREBASE_AUTH_DOMAIN=tu_dominio_de_autenticacion
+FIREBASE_PROJECT_ID=tu_id_de_proyecto
+FIREBASE_STORAGE_BUCKET=tu_bucket_de_almacenamiento
+FIREBASE_MESSAGING_SENDER_ID=tu_id_de_remitente_de_mensajes
+FIREBASE_APP_ID=tu_id_de_aplicacion
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Tecnologías Utilizadas
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- **Next.js**: Un framework de React para construir aplicaciones renderizadas en el lado del servidor y generadas estáticamente.
+- **Tailwind CSS**: Un framework CSS utilitario para construir rápidamente diseños personalizados.
+- **Firebase Firestore**: Una base de datos NoSQL utilizada para almacenar datos de video como likes, recuento de reproducciones, ruta del video, título, descripción e ID.
+- **Firebase Auth**: La autenticación de GitHub se utiliza para el inicio de sesión de usuarios. (Github única opción disponible)
+- **tRPC**: Utilizado para llamadas a la API para obtener información sobre todos los videos, un video único y para incrementar el recuento de reproducciones (solo si el usuario ha iniciado sesión).
+- **Shadcn**: Proporciona componentes como Toast, Dropdown, Avatar, Button y Skeleton para el desarrollo de la interfaz de usuario.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Notas
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Capacidad de streaming de video utilizando rutas API nativas de Next.js (`getStreamingVideo`) para la ruta `/watch/[id]`.
+- Incluye videos de muestra en el directorio `public` para probar y consumir contenido multimedia basado en datos extraídos de la base de datos.
+- tRPC configurado con un loggerLink para probar llamadas a la API en modo de desarrollo
